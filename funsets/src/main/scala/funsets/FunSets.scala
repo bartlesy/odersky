@@ -73,7 +73,6 @@ object FunSets {
 
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
-   */
     def map(s: Set, f: Int => Int): Set = {
       def accumulator(t: Set, x: Int): Set = {
         if (x > bound) t
@@ -84,6 +83,9 @@ object FunSets {
       val nullSet = intersect(singletonSet(420), singletonSet(69))
       accumulator(nullSet, -bound)
     }
+    */
+
+    def map(s: Set, f: Int => Int): Set = (y: Int) => exists(s, x => f(x) == y)
   /**
    * Displays the contents of a set
    */
