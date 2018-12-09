@@ -109,7 +109,7 @@ object Huffman {
    */
     def combine(trees: List[CodeTree]): List[CodeTree] = {
       if (singleton(trees) || trees.size == 0) trees
-      else List(makeCodeTree(trees(0), trees(1))) ::: trees.slice(2, trees.size)
+      else List(makeCodeTree(trees(0), trees(1))) ::: trees.drop(2)
     }
   
   /**
