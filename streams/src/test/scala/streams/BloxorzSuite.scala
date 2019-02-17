@@ -50,11 +50,19 @@ class BloxorzSuite extends FunSuite {
       assert(terrain(Pos(4,7)), "4,7") // goal
       assert(terrain(Pos(5,8)), "5,8")
       assert(!terrain(Pos(5,9)), "5,9")
+      assert(!terrain(Pos(4,4)), "4,4")
       assert(terrain(Pos(4,9)), "4,9")
       assert(!terrain(Pos(6,8)), "6,8")
       assert(!terrain(Pos(4,11)), "4,11")
       assert(!terrain(Pos(-1,0)), "-1,0")
       assert(!terrain(Pos(0,-1)), "0,-1")
+    }
+  }
+
+  test("block is legal") {
+    new Level1 {
+      assert(!Block(Pos(3, 4), Pos(4, 4)).isLegal)
+      assert(!Block(Pos(4, 4), Pos(4, 4)).isLegal)
     }
   }
 
