@@ -40,11 +40,20 @@ abstract class QuickCheckHeap extends Properties("Heap") with IntHeap {
     isEmpty(h)
   }
 
-  property("minMeld") = forAll {
+  property("minMeldNonEmpty") = forAll {
     (h1: H, h2: H) =>
       (!isEmpty(h1) & !isEmpty(h2)) ==> {
         val h = meld(h1, h2)
         findMin(h) == (findMin(h1) min findMin(h2))
+      }
+  }
+
+  property("minMeld") = forAll {
+    (h1: H, h2: H) =>
+      (!isEmpty(h1) | !isEmpty(h2)) ==> {
+        val minVal = if (isEmpty(h1)) findMin(h2) else if (isEmpty(h2)) findMin(h1) else findMin(h2) min findMin(h1)
+        val h = meld(h1, h2)
+        findMin(h) == minVal
       }
   }
 
