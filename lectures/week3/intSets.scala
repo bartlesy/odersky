@@ -38,5 +38,3 @@ class NonEmpty(elem: Int, left: IntSet, right: IntSet) extends IntSet {
 
   override def toString = "{" + left + elem + right + "}"
 }
-
-

@@ -172,7 +172,8 @@ class GradingFeedback {
       | - Take another very careful look at the assignment description. Try to find out if you
       |   misunderstood parts of it. While reading through the assignment, write more tests.
       |
-      |Below you can find a short feedback for every individual test that failed.""".stripMargin.format(score, maxTestScore)
+      |Below you can find a short feedback for every individual test that failed.""".stripMargin
+      .format(score, maxTestScore)
 
   // def so that we read the right value of vMaxTestScore (initialize modifies it)
   private def allTestsPassedMessage =
@@ -192,17 +193,20 @@ class GradingFeedback {
 
   private def styleProblemsMessage(score: Double) =
     """Our automated style checker tool found issues in your code with respect to coding style: it
-      |computed a style score of %.2f out of %.2f for your submission. See below for detailed feedback.""".stripMargin.format(score, maxStyleScore)
+      |computed a style score of %.2f out of %.2f for your submission. See below for detailed feedback.""".stripMargin
+      .format(score, maxStyleScore)
 
   private def totalGradeMessage(score: Double) =
-    """Your overall score for this assignment is %.2f out of %.2f""".format(score, maxTestScore + maxStyleScore)
+    """Your overall score for this assignment is %.2f out of %.2f""".format(
+      score,
+      maxTestScore + maxStyleScore
+    )
 
 }
 
 /**
   * Logger to capture compiler output, test output
   */
-
 object RecordingLogger extends Logger {
   private val buffer = ListBuffer[String]()
 

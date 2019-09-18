@@ -9,4 +9,3 @@ object scratch {
   val x: String = null
   val y = null
 }
-

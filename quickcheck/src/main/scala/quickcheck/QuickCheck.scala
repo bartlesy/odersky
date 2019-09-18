@@ -12,8 +12,8 @@ abstract class QuickCheckHeap extends Properties("Heap") with IntHeap {
   lazy val genHeap: Gen[H] = oneOf(
     const(empty),
     for {
-    v <- arbitrary[Int]
-    h <- genHeap
+      v <- arbitrary[Int]
+      h <- genHeap
     } yield insert(v, h)
   )
 
@@ -29,7 +29,6 @@ abstract class QuickCheckHeap extends Properties("Heap") with IntHeap {
     findMin(h) == (a min b)
   }
 
-
   property("gen1") = forAll { (h: H) =>
     val m = if (isEmpty(h)) 0 else findMin(h)
     findMin(insert(m, h)) == m
@@ -40,21 +39,22 @@ abstract class QuickCheckHeap extends Properties("Heap") with IntHeap {
     isEmpty(h)
   }
 
-  property("minMeldNonEmpty") = forAll {
-    (h1: H, h2: H) =>
-      (!isEmpty(h1) & !isEmpty(h2)) ==> {
-        val h = meld(h1, h2)
-        findMin(h) == (findMin(h1) min findMin(h2))
-      }
+  property("minMeldNonEmpty") = forAll { (h1: H, h2: H) =>
+    (!isEmpty(h1) & !isEmpty(h2)) ==> {
+      val h = meld(h1, h2)
+      findMin(h) == (findMin(h1) min findMin(h2))
+    }
   }
 
-  property("minMeld") = forAll {
-    (h1: H, h2: H) =>
-      (!isEmpty(h1) | !isEmpty(h2)) ==> {
-        val minVal = if (isEmpty(h1)) findMin(h2) else if (isEmpty(h2)) findMin(h1) else findMin(h2) min findMin(h1)
-        val h = meld(h1, h2)
-        findMin(h) == minVal
-      }
+  property("minMeld") = forAll { (h1: H, h2: H) =>
+    (!isEmpty(h1) | !isEmpty(h2)) ==> {
+      val minVal =
+        if (isEmpty(h1)) findMin(h2)
+        else if (isEmpty(h2)) findMin(h1)
+        else findMin(h2) min findMin(h1)
+      val h = meld(h1, h2)
+      findMin(h) == minVal
+    }
   }
 
   property("retSorted") = forAll { h: H =>
@@ -62,7 +62,7 @@ abstract class QuickCheckHeap extends Properties("Heap") with IntHeap {
       if (isEmpty(heap)) xs.reverse
       else {
         val x = findMin(heap)
-        get(deleteMin(heap), x::xs)
+        get(deleteMin(heap), x :: xs)
       }
     }
     val resList = get(h, List())

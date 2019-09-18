@@ -34,8 +34,7 @@ object Main {
       } else {
         if (parens.head == ')' && stack.isEmpty) {
           false
-        }
-        else _balance(stack.tail, parens.tail)
+        } else _balance(stack.tail, parens.tail)
       }
     }
 
@@ -56,7 +55,10 @@ object Main {
         if (coins.last > money) {
           countChange(money, coins.dropRight(1))
         } else {
-          countChange(money - coins.last, coins) + countChange(money, coins.dropRight(1))
+          countChange(money - coins.last, coins) + countChange(
+            money,
+            coins.dropRight(1)
+          )
         }
       }
     }

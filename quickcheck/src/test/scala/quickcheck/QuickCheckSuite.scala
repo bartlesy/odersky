@@ -23,7 +23,10 @@ class QuickCheckSuite extends FunSuite with Checkers {
       case e: TestFailedException =>
         ok = true
     }
-    assert(ok, "A bogus heap should NOT satisfy all properties. Try to find the bug!")
+    assert(
+      ok,
+      "A bogus heap should NOT satisfy all properties. Try to find the bug!"
+    )
   }
 
   test("Binomial heap satisfies properties.") {

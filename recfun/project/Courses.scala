@@ -11,136 +11,247 @@ object Courses {
   /** Configurations of the assignments of all courses */
   val all: Courses = Map(
     "progfun1" -> {
-        val styleSheetPath = "scalastyle" :: "scalastyle_config.xml" :: Nil
-        Map(
-          "example" -> Assignment(
-            packageName = "example",
-            courseraId = CourseraId("g4unnjZBEeWj7SIAC5PFxA", "d5jxI", "xIz9O", None),
-            maxScore = 10d,
-            styleCheck = Some(StyleCheck(0.2, styleSheetPath))),
-          "recfun" -> Assignment(
-            packageName = "recfun",
-            courseraId = CourseraId("SNYuDzZEEeWNVyIAC92BaQ", "PzVVY", "Yljln", Some("Ey6Jf")),
-            maxScore = 10d,
-            styleCheck = Some(StyleCheck(0.2, styleSheetPath))),
-          "funsets" -> Assignment(
-            packageName = "funsets",
-            courseraId = CourseraId("FNHHMDfsEeWAGiIAC46PTg", "IljBE", "WWsVR", Some("BVa6a")),
-            maxScore = 10d,
-            styleCheck = Some(StyleCheck(0.2, styleSheetPath))),
-          "objsets" -> Assignment(
-            packageName = "objsets",
-            courseraId = CourseraId("6PTXvD99EeWAiCIAC7Pj9w", "7hlkb", "d1FGp", Some("Ogg05")),
-            maxScore = 10d,
-            styleCheck = Some(StyleCheck(0.2, styleSheetPath)),
-            options = Map("grader-timeout" -> "1800")),
-          "patmat" -> Assignment(
-            packageName = "patmat",
-            courseraId = CourseraId("BwkTtD9_EeWFZSIACtiVgg", "2KYZc", "ZjaI7", Some("uctOq")),
-            maxScore = 10d,
-            styleCheck = Some(StyleCheck(0.2, styleSheetPath))),
-          "forcomp" -> Assignment(
-            packageName = "forcomp",
-            courseraId = CourseraId("CPJe397VEeWLGArWOseZkw", "v2XIe", "lzaCV", Some("nVRPb")),
-            maxScore = 10d,
-            styleCheck = Some(StyleCheck(0.2, styleSheetPath)),
-            options = Map("grader-timeout" -> "1800"))
+      val styleSheetPath = "scalastyle" :: "scalastyle_config.xml" :: Nil
+      Map(
+        "example" -> Assignment(
+          packageName = "example",
+          courseraId =
+            CourseraId("g4unnjZBEeWj7SIAC5PFxA", "d5jxI", "xIz9O", None),
+          maxScore = 10d,
+          styleCheck = Some(StyleCheck(0.2, styleSheetPath))
+        ),
+        "recfun" -> Assignment(
+          packageName = "recfun",
+          courseraId = CourseraId(
+            "SNYuDzZEEeWNVyIAC92BaQ",
+            "PzVVY",
+            "Yljln",
+            Some("Ey6Jf")
+          ),
+          maxScore = 10d,
+          styleCheck = Some(StyleCheck(0.2, styleSheetPath))
+        ),
+        "funsets" -> Assignment(
+          packageName = "funsets",
+          courseraId = CourseraId(
+            "FNHHMDfsEeWAGiIAC46PTg",
+            "IljBE",
+            "WWsVR",
+            Some("BVa6a")
+          ),
+          maxScore = 10d,
+          styleCheck = Some(StyleCheck(0.2, styleSheetPath))
+        ),
+        "objsets" -> Assignment(
+          packageName = "objsets",
+          courseraId = CourseraId(
+            "6PTXvD99EeWAiCIAC7Pj9w",
+            "7hlkb",
+            "d1FGp",
+            Some("Ogg05")
+          ),
+          maxScore = 10d,
+          styleCheck = Some(StyleCheck(0.2, styleSheetPath)),
+          options = Map("grader-timeout" -> "1800")
+        ),
+        "patmat" -> Assignment(
+          packageName = "patmat",
+          courseraId = CourseraId(
+            "BwkTtD9_EeWFZSIACtiVgg",
+            "2KYZc",
+            "ZjaI7",
+            Some("uctOq")
+          ),
+          maxScore = 10d,
+          styleCheck = Some(StyleCheck(0.2, styleSheetPath))
+        ),
+        "forcomp" -> Assignment(
+          packageName = "forcomp",
+          courseraId = CourseraId(
+            "CPJe397VEeWLGArWOseZkw",
+            "v2XIe",
+            "lzaCV",
+            Some("nVRPb")
+          ),
+          maxScore = 10d,
+          styleCheck = Some(StyleCheck(0.2, styleSheetPath)),
+          options = Map("grader-timeout" -> "1800")
         )
+      )
     },
-
     "parprog1" -> {
       Map(
         "example" -> Assignment(
           packageName = "example",
-          courseraId = CourseraId("_Cuio9oTEeWUtQpvX4iAkw", "WGx0f", "gM5Y4", None),
+          courseraId =
+            CourseraId("_Cuio9oTEeWUtQpvX4iAkw", "WGx0f", "gM5Y4", None),
           maxScore = 10d
         ),
         "scalashop" -> Assignment(
           packageName = "scalashop",
-          courseraId = CourseraId("OpSNmtC1EeWvXAr2bF16EQ", "Q2e1P", "MhXvy", Some("NeGTv")),
+          courseraId = CourseraId(
+            "OpSNmtC1EeWvXAr2bF16EQ",
+            "Q2e1P",
+            "MhXvy",
+            Some("NeGTv")
+          ),
           maxScore = 10d
         ),
         "reductions" -> Assignment(
           packageName = "reductions",
-          courseraId = CourseraId("lUUWddoGEeWPHw6r45-nxw", "gmSnR", "U1eU3", Some("4rXwX")),
+          courseraId = CourseraId(
+            "lUUWddoGEeWPHw6r45-nxw",
+            "gmSnR",
+            "U1eU3",
+            Some("4rXwX")
+          ),
           maxScore = 10d
         ),
         "kmeans" -> Assignment(
           packageName = "kmeans",
-          courseraId = CourseraId("UJmFEtoIEeWJwRKcpT8ChQ", "mz8iL", "Olt0g", Some("akLxD")),
+          courseraId = CourseraId(
+            "UJmFEtoIEeWJwRKcpT8ChQ",
+            "mz8iL",
+            "Olt0g",
+            Some("akLxD")
+          ),
           maxScore = 10d
         ),
         "barneshut" -> Assignment(
           packageName = "barneshut",
-          courseraId = CourseraId("itfW99oJEeWXuxJgUJEB-Q", "ep95q", "z1ugn", Some("xGkV0")),
+          courseraId = CourseraId(
+            "itfW99oJEeWXuxJgUJEB-Q",
+            "ep95q",
+            "z1ugn",
+            Some("xGkV0")
+          ),
           maxScore = 10d
         )
       )
     },
-
     "progfun2" -> {
       val styleSheetPath = "scalastyle" :: "scalastyle_config.xml" :: Nil
       Map(
         "example" -> Assignment(
           packageName = "example",
-          courseraId = CourseraId("lLkU5d7xEeWGkg7lknKHZw", "5QFuy", "AYDPu", None),
+          courseraId =
+            CourseraId("lLkU5d7xEeWGkg7lknKHZw", "5QFuy", "AYDPu", None),
           maxScore = 10d,
-          styleCheck = Some(StyleCheck(0.2, styleSheetPath))),
+          styleCheck = Some(StyleCheck(0.2, styleSheetPath))
+        ),
         "streams" -> Assignment(
           packageName = "streams",
-          courseraId = CourseraId("2iZL1kBCEeWwdxI8PoEnkw", "EKNhX", "VSzXq", Some("Sh2dW")),
+          courseraId = CourseraId(
+            "2iZL1kBCEeWwdxI8PoEnkw",
+            "EKNhX",
+            "VSzXq",
+            Some("Sh2dW")
+          ),
           maxScore = 10d,
           styleCheck = Some(StyleCheck(0.2, styleSheetPath)),
-          options = Map("grader-timeout" -> "1800", "Xms" -> "512m", "Xmx" -> "512m", "totalTimeout" -> "1500", "individualTimeout" -> "600")),
+          options = Map(
+            "grader-timeout" -> "1800",
+            "Xms" -> "512m",
+            "Xmx" -> "512m",
+            "totalTimeout" -> "1500",
+            "individualTimeout" -> "600"
+          )
+        ),
         "quickcheck" -> Assignment(
           packageName = "quickcheck",
-          courseraId = CourseraId("l86W1kt6EeWKvAo5SY6hHw", "DZTNG", "ML01L", Some("DF4y7")),
+          courseraId = CourseraId(
+            "l86W1kt6EeWKvAo5SY6hHw",
+            "DZTNG",
+            "ML01L",
+            Some("DF4y7")
+          ),
           maxScore = 10d,
           styleCheck = Some(StyleCheck(0.2, styleSheetPath))
         ),
         "calculator" -> Assignment(
           packageName = "calculator",
-          courseraId = CourseraId("QWry5Q33EeaVNg5usvFqrw", "9eOy7", "Qovtr", Some("sO8Cf")),
+          courseraId = CourseraId(
+            "QWry5Q33EeaVNg5usvFqrw",
+            "9eOy7",
+            "Qovtr",
+            Some("sO8Cf")
+          ),
           maxScore = 10d,
-          styleCheck = Some(StyleCheck(0.2, "scalastyle" :: "calculator.xml" :: Nil))
+          styleCheck =
+            Some(StyleCheck(0.2, "scalastyle" :: "calculator.xml" :: Nil))
         )
       )
 
     },
-
     "bigdata" -> {
       Map(
         "example" -> Assignment(
           packageName = "example",
-          courseraId = CourseraId("9W3VuiJREeaFaw43_UrNUw", "vsJoj", "I6L8m", None),
+          courseraId =
+            CourseraId("9W3VuiJREeaFaw43_UrNUw", "vsJoj", "I6L8m", None),
           maxScore = 10d,
-          options = Map("Xmx"->"1540m", "grader-memory"->"2048")),
+          options = Map("Xmx" -> "1540m", "grader-memory" -> "2048")
+        ),
         "wikipedia" -> Assignment(
           packageName = "wikipedia",
-          courseraId = CourseraId("EH8wby4kEeawURILfHIqjw", "5komc", "CfQX2", Some("QcWcs")),
+          courseraId = CourseraId(
+            "EH8wby4kEeawURILfHIqjw",
+            "5komc",
+            "CfQX2",
+            Some("QcWcs")
+          ),
           maxScore = 10d,
-          options = Map("Xmx"->"1540m", "grader-memory"->"2048", "totalTimeout" -> "900", "grader-cpu" -> "2")),
+          options = Map(
+            "Xmx" -> "1540m",
+            "grader-memory" -> "2048",
+            "totalTimeout" -> "900",
+            "grader-cpu" -> "2"
+          )
+        ),
         "stackoverflow" -> Assignment(
           packageName = "stackoverflow",
-          courseraId = CourseraId("7ByAoS4kEea1yxIfJA1CUw", "OY5fJ", "QhzMw", Some("FWGnz")),
+          courseraId = CourseraId(
+            "7ByAoS4kEea1yxIfJA1CUw",
+            "OY5fJ",
+            "QhzMw",
+            Some("FWGnz")
+          ),
           maxScore = 10d,
-          options = Map("Xmx"->"1540m", "grader-memory"->"2048", "totalTimeout" -> "900", "grader-cpu" -> "2")),
+          options = Map(
+            "Xmx" -> "1540m",
+            "grader-memory" -> "2048",
+            "totalTimeout" -> "900",
+            "grader-cpu" -> "2"
+          )
+        ),
         "timeusage" -> Assignment(
           packageName = "timeusage",
-          courseraId = CourseraId("mVk0fgQ0EeeGZQrYVAT1jg", "y8PO8", "O0akp", Some("T19Ec")),
+          courseraId = CourseraId(
+            "mVk0fgQ0EeeGZQrYVAT1jg",
+            "y8PO8",
+            "O0akp",
+            Some("T19Ec")
+          ),
           maxScore = 10d,
-          options = Map("Xmx"->"1540m", "grader-memory"->"2048", "totalTimeout" -> "900", "grader-cpu" -> "2")
+          options = Map(
+            "Xmx" -> "1540m",
+            "grader-memory" -> "2048",
+            "totalTimeout" -> "900",
+            "grader-cpu" -> "2"
+          )
         )
       )
     },
-
     "capstone" -> Map(
       "observatory" -> Assignment(
         packageName = "observatory",
-        courseraId = CourseraId("XdlPsYjPEeeJEQ6TH2unjA", "RIjrU", "ekWDs", Some("NXfKi")),
+        courseraId =
+          CourseraId("XdlPsYjPEeeJEQ6TH2unjA", "RIjrU", "ekWDs", Some("NXfKi")),
         maxScore = 10d,
-        styleCheck = Some(StyleCheck(0.1, "scalastyle" :: "observatory.xml" :: Nil)),
-        options = Map("Xmx"->"1600m", "grader-memory"->"2048", "grader-cpu" -> "2")
+        styleCheck =
+          Some(StyleCheck(0.1, "scalastyle" :: "observatory.xml" :: Nil)),
+        options =
+          Map("Xmx" -> "1600m", "grader-memory" -> "2048", "grader-cpu" -> "2")
       )
     )
   )
@@ -165,11 +276,11 @@ object Courses {
   *                            grader-timeout                     1200                 grading timeout for coursera infrastructure
   */
 case class Assignment(
-  packageName: String,
-  courseraId: CourseraId,
-  maxScore: Double,
-  styleCheck: Option[StyleCheck] = Option.empty,
-  options: Map[String, String] = Map.empty
+    packageName: String,
+    courseraId: CourseraId,
+    maxScore: Double,
+    styleCheck: Option[StyleCheck] = Option.empty,
+    options: Map[String, String] = Map.empty
 )
 
 /**
@@ -179,8 +290,8 @@ case class Assignment(
   * @param styleSheet Path to the scalastyle configuration file (relative from the assignment base directory)
   */
 case class StyleCheck(
-  scoreRatio: Double,
-  styleSheet: List[String]
+    scoreRatio: Double,
+    styleSheet: List[String]
 )
 
 /**
@@ -192,4 +303,9 @@ case class StyleCheck(
   * @param itemId Item id of the non premium version
   * @param premiumItemId Item id of the premium version (`None` if the assignment is optional)
   */
-case class CourseraId(key: String, partId: String, itemId: String, premiumItemId: Option[String])
+case class CourseraId(
+    key: String,
+    partId: String,
+    itemId: String,
+    premiumItemId: Option[String]
+)

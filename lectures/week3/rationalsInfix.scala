@@ -5,8 +5,8 @@ object rationals extends App {
   println(x)
   println(x.numer)
   println(x.denom)
-  println(x. + (new Rational(3, 4)))
-  println(x. - (new Rational(3, 4)))
+  println(x.+(new Rational(3, 4)))
+  println(x.-(new Rational(3, 4)))
   println(new Rational(2))
 }
 
@@ -21,7 +21,7 @@ class Rational(x: Int, y: Int) {
   val numer = x / g
   val denom = y / g
 
-  def + (that: Rational) =
+  def +(that: Rational) =
     new Rational(
       numer * that.denom + that.numer * denom,
       denom * that.denom
@@ -31,12 +31,11 @@ class Rational(x: Int, y: Int) {
 
   def unary_- : Rational = new Rational(-numer, denom)
 
-  def - (that: Rational) = this + (-that)
+  def -(that: Rational) = this + (-that)
 
-  def < (that: Rational) = numer * that.denom < that.numer * denom
+  def <(that: Rational) = numer * that.denom < that.numer * denom
 
   def max(that: Rational) = if (this < (that)) that else this
 
   override def toString = numer + "/" + denom
 }
-

@@ -11,33 +11,36 @@ import scalaj.http._
 import scala.util.{Try, Success, Failure}
 
 case class AssignmentInfo(
-  key: String,
-  itemId: String,
-  premiumItemId: Option[String],
-  partId: String,
-  styleSheet: Option[File => File]
+    key: String,
+    itemId: String,
+    premiumItemId: Option[String],
+    partId: String,
+    styleSheet: Option[File => File]
 )
 
-case class MapMapString (map: Map[String, Map[String, String]])
+case class MapMapString(map: Map[String, Map[String, String]])
+
 /**
   * Note: keep this class concrete (i.e., do not convert it to abstract class or trait).
   */
-class StudentBuildLike protected() extends CommonBuild {
+class StudentBuildLike protected () extends CommonBuild {
 
   val assignmentInfo = SettingKey[AssignmentInfo]("assignmentInfo")
 
-  lazy val root = project.in(file(".")).settings(
-    submitSetting,
-    submitLocalSetting,
-    commonSourcePackages := Seq(), // see build.sbt
-    styleCheckSetting,
-    libraryDependencies += scalaTestDependency
-  ).settings(packageSubmissionFiles: _*)
+  lazy val root = project
+    .in(file("."))
+    .settings(
+      submitSetting,
+      submitLocalSetting,
+      commonSourcePackages := Seq(), // see build.sbt
+      styleCheckSetting,
+      libraryDependencies += scalaTestDependency
+    )
+    .settings(packageSubmissionFiles: _*)
 
   /** **********************************************************
     * SUBMITTING A SOLUTION TO COURSERA
     */
-
   val packageSubmission = TaskKey[File]("packageSubmission")
 
   val sourceMappingsWithoutPackages = Def.task {
@@ -46,14 +49,19 @@ class StudentBuildLike protected() extends CommonBuild {
     val sdirs = unmanagedSourceDirectories.value
     val base = baseDirectory.value
     val allFiles = srcs --- sdirs --- base
-    val commonSourcePaths = commonSourcePackages.value.map(scalaSource.value / _).map(_.getPath)
-    val withoutCommonSources = allFiles.filter(f => !commonSourcePaths.exists(f.getPath.startsWith))
+    val commonSourcePaths =
+      commonSourcePackages.value.map(scalaSource.value / _).map(_.getPath)
+    val withoutCommonSources =
+      allFiles.filter(f => !commonSourcePaths.exists(f.getPath.startsWith))
     withoutCommonSources pair (relativeTo(sdirs) | relativeTo(base) | flat)
   }
 
   val packageSubmissionFiles = {
     // in the packageSubmission task we only use the sources of the assignment and not the common sources. We also do not package resources.
-    inConfig(Compile)(Defaults.packageTaskSettings(packageSubmission, sourceMappingsWithoutPackages))
+    inConfig(Compile)(
+      Defaults
+        .packageTaskSettings(packageSubmission, sourceMappingsWithoutPackages)
+    )
   }
 
   /** Check that the jar exists, isn't empty, isn't crazy big, and can be read
@@ -63,15 +71,19 @@ class StudentBuildLike protected() extends CommonBuild {
     val errPrefix = "Error submitting assignment jar: "
     val fileLength = jar.length()
     if (!jar.exists()) {
-      s.log.error(errPrefix + "jar archive does not exist\n" + jar.getAbsolutePath)
+      s.log.error(
+        errPrefix + "jar archive does not exist\n" + jar.getAbsolutePath
+      )
       failSubmit()
     } else if (fileLength == 0L) {
       s.log.error(errPrefix + "jar archive is empty\n" + jar.getAbsolutePath)
       failSubmit()
     } else if (fileLength > maxSubmitFileSize) {
-      s.log.error(errPrefix + "jar archive is too big. Allowed size: " +
-        maxSubmitFileSize + " bytes, found " + fileLength + " bytes.\n" +
-        jar.getAbsolutePath)
+      s.log.error(
+        errPrefix + "jar archive is too big. Allowed size: " +
+          maxSubmitFileSize + " bytes, found " + fileLength + " bytes.\n" +
+          jar.getAbsolutePath
+      )
       failSubmit()
     } else {
       val bytes = new Array[Byte](fileLength.toInt)
@@ -82,11 +94,15 @@ class StudentBuildLike protected() extends CommonBuild {
         read
       } catch {
         case ex: IOException =>
-          s.log.error(errPrefix + "failed to read sources jar archive\n" + ex.toString)
+          s.log.error(
+            errPrefix + "failed to read sources jar archive\n" + ex.toString
+          )
           failSubmit()
       }
       if (sizeRead != bytes.length) {
-        s.log.error(errPrefix + "failed to read the sources jar archive, size read: " + sizeRead)
+        s.log.error(
+          errPrefix + "failed to read the sources jar archive, size read: " + sizeRead
+        )
         failSubmit()
       } else encodeBase64(bytes)
     }
@@ -144,13 +160,11 @@ class StudentBuildLike protected() extends CommonBuild {
               |The submit token is NOT YOUR LOGIN PASSWORD.
               |It can be obtained from the assignment page:
               |https://www.coursera.org/learn/$courseName/programming/$itemId
-              |${
-                premiumItemId.fold("") { id =>
-                  s"""or (for premium learners):
+              |${premiumItemId.fold("") { id =>
+               s"""or (for premium learners):
                      |https://www.coursera.org/learn/$courseName/programming/$id
                    """.stripMargin
-                }
-              }
+             }}
           """.stripMargin
         s.log.error(inputErr)
         failSubmit()
@@ -170,16 +184,21 @@ class StudentBuildLike protected() extends CommonBuild {
           |}""".stripMargin
 
     def postSubmission[T](data: String): Try[HttpResponse[String]] = {
-      val http = Http("https://www.coursera.org/api/onDemandProgrammingScriptSubmissions.v1")
+      val http = Http(
+        "https://www.coursera.org/api/onDemandProgrammingScriptSubmissions.v1"
+      )
       val hs = List(
         ("Cache-Control", "no-cache"),
         ("Content-Type", "application/json")
       )
       s.log.info("Connecting to Coursera...")
-      val response = Try(http.postData(data)
-                         .headers(hs)
-                         .option(HttpOptions.connTimeout(10000)) // scalaj default timeout is only 100ms, changing that to 10s
-                         .asString) // kick off HTTP POST
+      val response = Try(
+        http
+          .postData(data)
+          .headers(hs)
+          .option(HttpOptions.connTimeout(10000)) // scalaj default timeout is only 100ms, changing that to 10s
+          .asString
+      ) // kick off HTTP POST
       response
     }
 
@@ -201,7 +220,7 @@ class StudentBuildLike protected() extends CommonBuild {
           "learnerMessage": "Invalid email or token."
         }
       }
-      */
+       */
 
       // Success, Coursera responds with 2xx HTTP status code
       if (response.is2xx) {
@@ -212,13 +231,11 @@ class StudentBuildLike protected() extends CommonBuild {
               |
                 |You can see how you scored by going to:
               |https://www.coursera.org/learn/$courseName/programming/$itemId/
-              |${
-            premiumItemId.fold("") { id =>
-              s"""or (for premium learners):
+              |${premiumItemId.fold("") { id =>
+               s"""or (for premium learners):
                  |https://www.coursera.org/learn/$courseName/programming/$id
                        """.stripMargin
-            }
-          }
+             }}
               |and clicking on "My Submission".""".stripMargin
         s.log.info(successfulSubmitMsg)
       }
@@ -287,23 +304,29 @@ class StudentBuildLike protected() extends CommonBuild {
   def encodeBase64(bytes: Array[Byte]): String =
     new String(Base64.encodeBase64(bytes))
 
-
   /** *****************************************************************
     * RUNNING WEIGHTED SCALATEST & STYLE CHECKER ON DEVELOPMENT SOURCES
     */
-
   val styleCheck = TaskKey[Unit]("styleCheck")
   val styleCheckSetting = styleCheck := {
-    val (_, sourceFiles, info, assignmentName) = ((compile in Compile).value, (sources in Compile).value, assignmentInfo.value, assignment.value)
+    val (_, sourceFiles, info, assignmentName) = (
+      (compile in Compile).value,
+      (sources in Compile).value,
+      assignmentInfo.value,
+      assignment.value
+    )
     val styleSheet = info.styleSheet
     val logger = streams.value.log
     styleSheet match {
-      case None     => logger.warn("Can't check style: there is no style sheet provided.")
+      case None =>
+        logger.warn("Can't check style: there is no style sheet provided.")
       case Some(ss) =>
-        val (feedback, score) = StyleChecker.assess(sourceFiles, ss(baseDirectory.value).getPath)
+        val (feedback, score) =
+          StyleChecker.assess(sourceFiles, ss(baseDirectory.value).getPath)
         logger.info(
           s"""|$feedback
-              |Style Score: $score out of ${StyleChecker.maxResult}""".stripMargin)
+              |Style Score: $score out of ${StyleChecker.maxResult}""".stripMargin
+        )
 
     }
   }

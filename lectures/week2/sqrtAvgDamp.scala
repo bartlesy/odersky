@@ -20,7 +20,7 @@ object exercise extends App {
 
   def averageDamp(f: Double => Double)(x: Double) = (x + f(x)) / 2
 
-  def sqrt(x:Double): Double = {
+  def sqrt(x: Double): Double = {
     fixedPoint(averageDamp(y => x / y))(1)
   }
 
@@ -32,4 +32,3 @@ object exercise extends App {
 
   println(dblFunc(halfer(identity))(10))
 }
-

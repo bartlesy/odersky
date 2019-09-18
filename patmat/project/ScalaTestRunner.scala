@@ -69,13 +69,19 @@ object ScalaTestRunner {
     }
   }
 
-  private def runPathString(file: File) = file.getAbsolutePath.replace(" ", "\\ ")
+  private def runPathString(file: File) =
+    file.getAbsolutePath.replace(" ", "\\ ")
 
-  private def invokeScalaTestInSeparateProcess(scalaTestCommand: List[String], logError: String => Unit, timeout: Int): String = {
+  private def invokeScalaTestInSeparateProcess(
+      scalaTestCommand: List[String],
+      logError: String => Unit,
+      timeout: Int
+  ): String = {
     val out = new LimitedStringBuffer()
     var proc: SysProc = null
     try {
-      proc = SysProc(scalaTestCommand).run(ProcessLogger(out.append, out.append))
+      proc =
+        SysProc(scalaTestCommand).run(ProcessLogger(out.append, out.append))
       forkProcess(proc, timeout)
     } catch {
       case e: TimeoutException =>
@@ -84,7 +90,8 @@ object ScalaTestRunner {
         proc.destroy()
         throw e
       case e: Throwable =>
-        val msg = "Error occurred while running the ScalaTest command\n" + e.toString + "\n" + out.toString()
+        val msg = "Error occurred while running the ScalaTest command\n" + e.toString + "\n" + out
+          .toString()
         logError(msg)
         proc.destroy()
         throw e
@@ -98,7 +105,11 @@ object ScalaTestRunner {
     out.toString
   }
 
-  private def computeSummary(outFilePath: String, classpathString: String, logError: String => Unit): String = {
+  private def computeSummary(
+      outFilePath: String,
+      classpathString: String,
+      logError: String => Unit
+  ): String = {
     val summaryFilePath = outFilePath + ".summary"
     val summaryCmd = "java" ::
       "-cp" :: classpathString ::
@@ -126,19 +137,37 @@ object ScalaTestRunner {
     summaryFilePath
   }
 
-  def runScalaTest(classpath: Classpath, testClasses: File, outfile: File,
-                   resourceFiles: List[File], gradeOptions: Map[String, String],
-                   logError: String => Unit, instragentPath: String) = {
+  def runScalaTest(
+      classpath: Classpath,
+      testClasses: File,
+      outfile: File,
+      resourceFiles: List[File],
+      gradeOptions: Map[String, String],
+      logError: String => Unit,
+      instragentPath: String
+  ) = {
 
     // invoke scalatest in the separate process
-    val classpathString = classpath map { case Attributed(file) => file.getAbsolutePath } mkString ":"
-    val cmd = scalaTestCommand(testClasses, outfile, resourceFiles, gradeOptions, classpathString, instragentPath)
+    val classpathString = classpath map {
+      case Attributed(file) => file.getAbsolutePath
+    } mkString ":"
+    val cmd = scalaTestCommand(
+      testClasses,
+      outfile,
+      resourceFiles,
+      gradeOptions,
+      classpathString,
+      instragentPath
+    )
 
-    val timeout = gradeOptions.getOrElse("totalTimeout", Settings.scalaTestTimeout.toString).toInt
+    val timeout = gradeOptions
+      .getOrElse("totalTimeout", Settings.scalaTestTimeout.toString)
+      .toInt
     val runLog = invokeScalaTestInSeparateProcess(cmd, logError, timeout)
 
     // compute the summary
-    val summaryFilePath = computeSummary(outfile.getAbsolutePath, classpathString, logError)
+    val summaryFilePath =
+      computeSummary(outfile.getAbsolutePath, classpathString, logError)
     val summary = unpickleSummary(logError, runLog, summaryFilePath)
 
     // cleanup all the files
@@ -147,9 +176,17 @@ object ScalaTestRunner {
     (summary.score, summary.maxScore, summary.feedback, runLog)
   }
 
-  private def unpickleSummary(logError: (String) => Unit, runLog: String, summaryFileStr: String): GradingSummary = {
+  private def unpickleSummary(
+      logError: (String) => Unit,
+      runLog: String,
+      summaryFileStr: String
+  ): GradingSummary = {
     try {
-      scala.io.Source.fromFile(summaryFileStr).getLines.mkString("\n").unpickle[GradingSummary]
+      scala.io.Source
+        .fromFile(summaryFileStr)
+        .getLines
+        .mkString("\n")
+        .unpickle[GradingSummary]
     } catch {
       case e: Throwable =>
         val msg = "Error occured while reading ScalaTest summary file\n" + e.toString + "\n" + runLog
@@ -158,8 +195,14 @@ object ScalaTestRunner {
     }
   }
 
-  private def scalaTestCommand(testClasses: File, outfile: File, resourceFiles: List[File], gradeOptions: Map[String, String], classpathString: String,
-                               instragentPath: String): List[String] = {
+  private def scalaTestCommand(
+      testClasses: File,
+      outfile: File,
+      resourceFiles: List[File],
+      gradeOptions: Map[String, String],
+      classpathString: String,
+      instragentPath: String
+  ): List[String] = {
     val testRunPath = runPathString(testClasses)
     val resourceFilesString = resourceFiles.map(_.getAbsolutePath).mkString(":")
     // Deleting the file is helpful: it makes reading the file below crash in case ScalaTest doesn't
@@ -172,7 +215,10 @@ object ScalaTestRunner {
     // grade options
     val xmx = gradeOptions.get("Xmx").map("-Xmx" + _).getOrElse("-Xmx256m")
     val xms = gradeOptions.get("Xms").map("-Xms" + _).getOrElse("-Xms10m")
-    val timeoutPerTest = gradeOptions.getOrElse("individualTimeout", Settings.individualTestTimeout.toString)
+    val timeoutPerTest = gradeOptions.getOrElse(
+      "individualTimeout",
+      Settings.individualTestTimeout.toString
+    )
 
     // we don't specify "-w packageToTest" - the build file only compiles the tests
     // for the current project. so we don't need to do it again here.
@@ -185,7 +231,10 @@ object ScalaTestRunner {
       prop(Settings.scalaTestReportFileProperty, outfile.getAbsolutePath) ::
       prop(Settings.scalaTestIndividualTestTimeoutProperty, timeoutPerTest) ::
       prop(Settings.scalaTestReadableFilesProperty, resourceFilesString) ::
-      prop(Settings.scalaTestDefaultWeightProperty, Settings.scalaTestDefaultWeight.toString) ::
+      prop(
+        Settings.scalaTestDefaultWeightProperty,
+        Settings.scalaTestDefaultWeight.toString
+      ) ::
       "-cp" :: classpathString ::
       "org.scalatest.tools.Runner" ::
       "-R" :: testRunPath ::
@@ -195,18 +244,39 @@ object ScalaTestRunner {
 
   private def testEnv(options: Map[String, String]): String = {
     val memory = options.get("Xmx").getOrElse("256m")
-    val timeout = options.get("totalTimeout").map(_.toInt).getOrElse(Settings.scalaTestTimeout)
-    val timeoutPerTest = options.get("individualTimeout").map(_.toInt).getOrElse(Settings.individualTestTimeout)
+    val timeout = options
+      .get("totalTimeout")
+      .map(_.toInt)
+      .getOrElse(Settings.scalaTestTimeout)
+    val timeoutPerTest = options
+      .get("individualTimeout")
+      .map(_.toInt)
+      .getOrElse(Settings.individualTestTimeout)
 
     "======== TESTING ENVIRONMENT ========\n" +
-    s"Limits: memory: $memory,  total time: ${timeout}s,  per test case time: ${timeoutPerTest}s\n"
+      s"Limits: memory: $memory,  total time: ${timeout}s,  per test case time: ${timeoutPerTest}s\n"
   }
 
-  def scalaTestGrade(gradingReporter: GradingFeedback, classpath: Classpath, testClasses: File, outfile: File,
-                     resourceFiles: List[File], gradeOptions: Map[String, String], instragentPath: String): Unit = {
+  def scalaTestGrade(
+      gradingReporter: GradingFeedback,
+      classpath: Classpath,
+      testClasses: File,
+      outfile: File,
+      resourceFiles: List[File],
+      gradeOptions: Map[String, String],
+      instragentPath: String
+  ): Unit = {
 
     val (score, maxScore, feedback, runLog) =
-      runScalaTest(classpath, testClasses, outfile, resourceFiles, gradeOptions, gradingReporter.testExecutionFailed, instragentPath)
+      runScalaTest(
+        classpath,
+        testClasses,
+        outfile,
+        resourceFiles,
+        gradeOptions,
+        gradingReporter.testExecutionFailed,
+        instragentPath
+      )
 
     if (score == maxScore) {
       gradingReporter.allTestsPassed()
@@ -220,4 +290,3 @@ object ScalaTestRunner {
     }
   }
 }
-

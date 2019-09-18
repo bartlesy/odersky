@@ -35,4 +35,3 @@ class Rational(x: Int, y: Int) {
 
   override def toString = numer + "/" + denom
 }
-
